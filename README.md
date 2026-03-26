@@ -115,7 +115,7 @@ Intelligent_Vehicle_Diagnostics_Copilot/
 <h3>1. Clone and install</h3>
 
 ```bash
-git clone https://github.com/your-username/Intelligent_Vehicle_Diagnostics_Copilot.git
+git clone https://github.com/niharikareddykatakamprashanthi/Intelligent_Vehicle_Diagnostics_Copilot.git
 cd Intelligent_Vehicle_Diagnostics_Copilot
 pip install -r requirements.txt
 ```
