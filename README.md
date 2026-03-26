@@ -4,7 +4,7 @@ A RAG-based AI assistant that diagnoses vehicle issues using actual repair manua
 
 You describe a symptom or paste an OBD code, and it tells you what system is affected, what is likely causing the issue, what to check step by step, which error codes are related, how severe the problem is, and what it will cost to fix.
 
----
+
 
 <h2>The Problem This Solves</h2>
 
@@ -14,7 +14,7 @@ AI chatbots are not much better. They answer from training data which is general
 
 This project fixes that. Instead of relying on what the LLM already knows, it first retrieves relevant content from real vehicle repair manuals and a structured OBD code database, then uses that retrieved content as the basis for the answer. Every answer is grounded in actual source material from the specific vehicle's documentation.
 
----
+
 
 <h2>What It Does</h2>
 
@@ -24,7 +24,7 @@ Diagnose — you enter a symptom, optionally an OBD code, and optionally your ve
 
 Full Cost Diagnosis — runs the same diagnosis but then passes it through two more agents. The second agent acts as a senior technician and reviews the diagnosis for accuracy. The third agent estimates the cost of repair including parts breakdown, labor hours, total cost range, repair time, difficulty level, and whether it can be done DIY or needs a professional.
 
----
+
 
 <h2>How It Works — Step by Step</h2>
 
@@ -72,7 +72,7 @@ Agent 3 is a cost estimation agent. It reads the diagnosis and outputs a parts b
 
 All three agents share a common state object that gets passed from one to the next through the graph.
 
----
+
 
 <h2>Project Structure</h2>
 
@@ -108,7 +108,7 @@ Intelligent_Vehicle_Diagnostics_Copilot/
 └── .gitignore
 ```
 
----
+
 
 <h2>Setup</h2>
 
@@ -143,7 +143,7 @@ On the first run, the app will read all PDFs, split them into 1000-character chu
 
 If you add new PDFs later, delete the faiss_index/ folder so it rebuilds with the new content included.
 
----
+
 
 <h2>Running</h2>
 
@@ -165,7 +165,7 @@ uvicorn api:app --reload
 
 Interactive API docs available at http://localhost:8000/docs
 
----
+
 
 <h2>API Reference</h2>
 
@@ -214,7 +214,7 @@ Response:
 }
 ```
 
----
+
 
 <h2>Sample Queries to Try</h2>
 
@@ -233,7 +233,7 @@ These cover different systems and query types to test the full range of the syst
 
 For vehicle-specific queries, fill in the Make, Model, and Year fields in the UI. The query sent to the LLM will include that context automatically.
 
----
+
 
 <h2>Things Worth Knowing</h2>
 
@@ -247,7 +247,7 @@ OBD code families — querying P0300 (random misfire) also surfaces P0301 throug
 
 Severity at highway speed — the prompt is tuned to mark severity as High when the symptom occurs at highway speed or involves braking or steering, regardless of what the OBD code alone would suggest.
 
----
+
 
 <h2>Supported Vehicles</h2>
 
@@ -258,7 +258,7 @@ Severity at highway speed — the prompt is tuned to mark severity as High when 
 
 More vehicles can be added at any time by dropping in their PDF manuals.
 
----
+
 
 <h2>Tech Stack</h2>
 
