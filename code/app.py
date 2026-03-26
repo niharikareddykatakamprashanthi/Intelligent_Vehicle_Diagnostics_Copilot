@@ -94,7 +94,7 @@ if but1:
             result = document_chain.invoke({"question": query})
         st.markdown(result)
     except Exception as e:
-        st.error(f"Error: {e}")
+        st.error(f"Out of Scope")
 
 elif but2:
     query = build_query()
@@ -108,4 +108,4 @@ elif but2:
         st.subheader("Cost Estimate")
         st.markdown(result["cost_estimate"])
     except Exception as e:
-        st.error(f"Error: {e}")
+        st.error(f"Out of Scope")
