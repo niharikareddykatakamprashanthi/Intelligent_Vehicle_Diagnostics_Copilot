@@ -21,14 +21,31 @@ from agents import run_agents
 
 st.title("Intelligent Vehicle Diagnostics Copilot")
 
+# Supported vehicles — matches the manuals in the FAISS index
+VEHICLE_MODELS = {
+    "": [],
+    "Honda": ["Civic"],
+    "Toyota": ["Camry", "Corolla"],
+    "Ford": ["F-150"],
+}
+
+VEHICLE_YEARS = {
+    ("Honda", "Civic"): ["2011"],
+    ("Toyota", "Camry"): ["2018"],
+    ("Toyota", "Corolla"): ["2019"],
+    ("Ford", "F-150"): ["2018"],
+}
+
 # Vehicle details — used to provide context to the LLM
 col1, col2, col3 = st.columns(3)
 with col1:
-    make = st.text_input("Vehicle Make", placeholder="e.g. Toyota")
+    make = st.selectbox("Vehicle Make", options=list(VEHICLE_MODELS.keys()))
 with col2:
-    model = st.text_input("Vehicle Model", placeholder="e.g. Camry")
+    model_options = [""] + VEHICLE_MODELS.get(make, [])
+    model = st.selectbox("Vehicle Model", options=model_options)
 with col3:
-    year = st.text_input("Year", placeholder="e.g. 2018")
+    year_options = [""] + VEHICLE_YEARS.get((make, model), [])
+    year = st.selectbox("Year", options=year_options)
 
 # Optional OBD code and symptom description
 obd_code = st.text_input("Enter OBD Code (optional)", placeholder="e.g. P0305")
