@@ -16,8 +16,6 @@ wheels/
 faiss_index/
 faiss_obd_index/
 
-# Data files (PDFs are large)
-data/manuals/
 
 # macOS
 .DS_Store
