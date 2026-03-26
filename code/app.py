@@ -12,8 +12,19 @@
 
 # ── Imports ──────────────────────────────────────────────────────────────────
 import streamlit as st
-from chain import document_chain
-from agents import run_agents
+
+@st.cache_resource(show_spinner="Loading vehicle manuals and building indexes...")
+def load_chain():
+    from chain import document_chain
+    return document_chain
+
+@st.cache_resource(show_spinner="Loading agent pipeline...")
+def load_agents():
+    from agents import run_agents
+    return run_agents
+
+document_chain = load_chain()
+run_agents = load_agents()
 
 # =============================================================================
 # SECTION 1: Page Layout & Inputs
@@ -78,17 +89,23 @@ def build_query():
 
 if but1:
     query = build_query()
-    with st.spinner("Analyzing..."):
-        result = document_chain.invoke({"question": query})
-    st.markdown(result)
+    try:
+        with st.spinner("Analyzing..."):
+            result = document_chain.invoke({"question": query})
+        st.markdown(result)
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 elif but2:
     query = build_query()
-    with st.spinner("This may take a moment..."):
-        result = run_agents(query)
-    st.subheader("Diagnosis")
-    st.markdown(result["diagnosis"])
-    st.subheader("Validation")
-    st.markdown(result["validation"])
-    st.subheader("Cost Estimate")
-    st.markdown(result["cost_estimate"])
+    try:
+        with st.spinner("This may take a moment..."):
+            result = run_agents(query)
+        st.subheader("Diagnosis")
+        st.markdown(result["diagnosis"])
+        st.subheader("Validation")
+        st.markdown(result["validation"])
+        st.subheader("Cost Estimate")
+        st.markdown(result["cost_estimate"])
+    except Exception as e:
+        st.error(f"Error: {e}")
