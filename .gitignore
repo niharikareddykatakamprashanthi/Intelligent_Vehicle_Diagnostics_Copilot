@@ -21,3 +21,10 @@ data/manuals/
 
 # macOS
 .DS_Store
+
+# Project-specific ignores
+.python-version
+uv.lock
+main.py
+test.py
+data/obd_codes.json
