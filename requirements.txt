@@ -1,0 +1,33 @@
+# =============================================================================
+# requirements.txt — Project Dependencies
+# =============================================================================
+# Install all dependencies with: pip install -r requirements.txt
+# =============================================================================
+
+# ── Document Loading ──────────────────────────────────────────────────────────
+pypdf                       # Read and parse PDF files (vehicle manuals)
+ipykernel                   # Jupyter notebook support (for development/testing)
+
+# ── LangChain Core ───────────────────────────────────────────────────────────
+langchain                   # Core LangChain framework
+langchain_openai            # OpenAI LLM and embeddings integration
+langchain_community         # Community loaders, retrievers (BM25, FAISS, PDF)
+langchain-text-splitters    # RecursiveCharacterTextSplitter for chunking
+langchain_classic           # EnsembleRetriever and classic retriever utilities
+
+# ── LangGraph ────────────────────────────────────────────────────────────────
+langgraph                   # Multi-agent pipeline (StateGraph)
+
+# ── Vector Store & Retrieval ─────────────────────────────────────────────────
+faiss-cpu                   # FAISS vector store for semantic search
+rank_bm25                   # BM25 keyword-based retriever
+
+# ── Web UI ────────────────────────────────────────────────────────────────────
+streamlit                   # Browser-based user interface
+
+# ── REST API ──────────────────────────────────────────────────────────────────
+fastapi                     # REST API framework
+uvicorn                     # ASGI server to run FastAPI
+
+# ── Utilities ────────────────────────────────────────────────────────────────
+python-dotenv               # Load environment variables from .env file (API keys)
