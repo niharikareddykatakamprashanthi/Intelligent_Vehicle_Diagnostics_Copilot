@@ -12,9 +12,6 @@ wheels/
 # Environment variables (contains API keys)
 .env
 
-# FAISS indexes (large binary files, rebuilt on startup)
-faiss_index/
-faiss_obd_index/
 
 
 # macOS
