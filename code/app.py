@@ -13,18 +13,15 @@
 # ── Imports ──────────────────────────────────────────────────────────────────
 import streamlit as st
 
-@st.cache_resource(show_spinner="Loading vehicle manuals and building indexes...")
+@st.cache_resource(show_spinner=False)
 def load_chain():
     from chain import document_chain
     return document_chain
 
-@st.cache_resource(show_spinner="Loading agent pipeline...")
+@st.cache_resource(show_spinner=False)
 def load_agents():
     from agents import run_agents
     return run_agents
-
-document_chain = load_chain()
-run_agents = load_agents()
 
 # =============================================================================
 # SECTION 1: Page Layout & Inputs
@@ -98,7 +95,7 @@ if but1:
     query = build_query()
     try:
         with st.spinner("Analyzing..."):
-            result = document_chain.invoke({"question": query})
+            result = load_chain().invoke({"question": query})
         st.markdown(clean(result))
     except Exception as e:
         st.error(f"Out of Scope")
@@ -107,7 +104,7 @@ elif but2:
     query = build_query()
     try:
         with st.spinner("This may take a moment..."):
-            result = run_agents(query)
+            result = load_agents()(query)
         st.subheader("Diagnosis")
         st.markdown(clean(result["diagnosis"]))
         st.subheader("Validation")
