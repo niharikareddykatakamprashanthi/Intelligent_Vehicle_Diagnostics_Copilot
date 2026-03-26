@@ -83,6 +83,10 @@ def build_query():
     obd_context = f"OBD Code: {obd_code}. " if obd_code else ""
     return f"{vehicle_context}{obd_context}{symptoms}"
 
+def clean(text):
+    """Remove backticks from LLM output to prevent green code formatting."""
+    return text.replace("`", "")
+
 # =============================================================================
 # SECTION 4: Diagnosis Results
 # =============================================================================
@@ -92,7 +96,7 @@ if but1:
     try:
         with st.spinner("Analyzing..."):
             result = document_chain.invoke({"question": query})
-        st.markdown(result)
+        st.markdown(clean(result))
     except Exception as e:
         st.error(f"Out of Scope")
 
@@ -102,10 +106,10 @@ elif but2:
         with st.spinner("This may take a moment..."):
             result = run_agents(query)
         st.subheader("Diagnosis")
-        st.markdown(result["diagnosis"])
+        st.markdown(clean(result["diagnosis"]))
         st.subheader("Validation")
-        st.markdown(result["validation"])
+        st.markdown(clean(result["validation"]))
         st.subheader("Cost Estimate")
-        st.markdown(result["cost_estimate"])
+        st.markdown(clean(result["cost_estimate"]))
     except Exception as e:
         st.error(f"Out of Scope")
