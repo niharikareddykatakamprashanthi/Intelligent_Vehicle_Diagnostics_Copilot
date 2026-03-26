@@ -95,9 +95,10 @@ You are an automotive repair cost estimator.
 Based on the diagnosis below, estimate the repair cost and time.
 
 IMPORTANT FORMATTING RULES — follow these strictly:
-- NEVER use backticks (`) anywhere in your response — not even for numbers, ranges, or dollar amounts
-- NEVER wrap numbers or prices in backticks
-- Write ranges as plain text only, for example: $30 - $50 (not `30` - 50 or `30 - 50`)
+- NEVER use the backtick character (`) anywhere — not once, not ever
+- WRONG: Sensor: `50 - ` 150   RIGHT: Sensor: $50 - $150
+- WRONG: Labor: `200 (2 hours` RIGHT: Labor: $200 (2 hours at $100/hour)
+- Write every number and dollar amount as plain text with no backticks
 - Always include the $ sign directly before every dollar amount
 
 Diagnosis:

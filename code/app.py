@@ -86,8 +86,8 @@ def build_query():
 def clean(text):
     """Remove backticks from LLM output to prevent green code formatting."""
     import re
-    text = re.sub(r"```[\s\S]*?```", lambda m: m.group(0).replace("```", "").strip(), text)
-    text = text.replace("`", "")
+    text = re.sub(r"```[\s\S]*?```", "", text)  # delete triple-backtick blocks entirely
+    text = text.replace("`", "")                 # delete any remaining single backticks
     return text
 
 # =============================================================================
