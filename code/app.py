@@ -84,6 +84,7 @@ def clean(text):
     """Remove backticks from LLM output to prevent green code formatting."""
     import re
     text = re.sub(r"```[\s\S]*?```", "", text)  # delete triple-backtick blocks entirely
+    text = re.sub(r"`([^`]*)`", r"\1", text)     # unwrap inline backtick spans
     text = text.replace("`", "")                 # delete any remaining single backticks
     return text
 
