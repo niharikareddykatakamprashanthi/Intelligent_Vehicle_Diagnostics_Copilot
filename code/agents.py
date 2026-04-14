@@ -109,11 +109,11 @@ Provide estimates in this format:
 Estimated Cost:
 
 Parts Breakdown:
-- [Part Name]: $X - $Y
-- [Part Name]: $X - $Y
+- [Part Name] - $X - $Y
+- [Part Name] - $X - $Y
 
-Labor: $X (X hours at $100/hour)
-Total: $X - $Y
+Labor - $X (X hours at $100/hour)
+Total - $X - $Y
 
 Estimated Time:
 - ...

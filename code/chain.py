@@ -202,6 +202,9 @@ Question: {question}
 
 Answer STRICTLY in this format:
 
+Summary:
+- One sentence directly answering the question (e.g. "Engine misfire in a Honda Civic is most commonly caused by worn spark plugs or a faulty ignition coil.")
+
 System:
 - ...
 
