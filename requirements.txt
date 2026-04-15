@@ -29,5 +29,9 @@ streamlit                   # Browser-based user interface
 fastapi                     # REST API framework
 uvicorn                     # ASGI server to run FastAPI
 
+# ── Evaluation ───────────────────────────────────────────────────────────────
+ragas                       # RAG evaluation framework (faithfulness, answer relevancy, context relevancy)
+datasets                    # HuggingFace datasets — required by RAGAS to build evaluation dataset
+
 # ── Utilities ────────────────────────────────────────────────────────────────
 python-dotenv               # Load environment variables from .env file (API keys)

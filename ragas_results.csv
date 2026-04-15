@@ -1,0 +1,11 @@
+question,faithfulness,answer_relevancy,context_relevance
+What causes engine misfire in a Honda Civic?,0.8,0.9510241734602349,1.0
+2018 Toyota Camry P0300 engine vibration at highway speed,0.9583333333333334,0.8006258144153099,1.0
+Toyota Camry 2018 transmission slipping between gears,0.8947368421052632,0.77445855192073,1.0
+Why does my car overheat and how do I fix it?,0.5909090909090909,0.7182501410712773,1.0
+P0420 catalyst system efficiency below threshold,0.8888888888888888,0.6926824948848403,1.0
+Toyota Corolla 2019 rough idle at startup,0.7647058823529411,0.816988941406009,1.0
+Ford F150 2018 engine oil pressure low warning light,0.8125,0.8570622313954539,1.0
+Car vibrates and shakes when braking at highway speed,0.7647058823529411,0.8405392423710841,1.0
+Why does my car stall at low speeds?,0.8571428571428571,0.8378071308748046,0.5
+What does P0301 mean and what are the recommended repair steps?,0.875,0.7862107527426212,1.0
