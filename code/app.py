@@ -81,11 +81,12 @@ def build_query():
     return f"{vehicle_context}{obd_context}{symptoms}"
 
 def clean(text):
-    """Remove backticks from LLM output to prevent green code formatting."""
+    """Remove backticks and escape dollar signs to prevent Streamlit LaTeX rendering."""
     import re
     text = re.sub(r"```[\s\S]*?```", "", text)  # delete triple-backtick blocks entirely
     text = re.sub(r"`([^`]*)`", r"\1", text)     # unwrap inline backtick spans
     text = text.replace("`", "")                 # delete any remaining single backticks
+    text = re.sub(r"\$(?=\S)", r"\\$", text)     # escape $ used as currency (not already escaped)
     return text
 
 # =============================================================================
@@ -97,6 +98,7 @@ if but1:
     try:
         with st.spinner("Analyzing..."):
             result = load_chain().invoke({"question": query})
+        st.subheader("Diagnosis")
         st.markdown(clean(result))
     except Exception as e:
         st.error(f"Out of Scope")
@@ -106,6 +108,7 @@ elif but2:
     try:
         with st.spinner("This may take a moment..."):
             result = load_agents()(query)
+        st.header("Full Cost Diagnosis")
         st.subheader("Diagnosis")
         st.markdown(clean(result["diagnosis"]))
         st.subheader("Validation")

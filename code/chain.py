@@ -21,6 +21,7 @@ from langchain_core.runnables import RunnableParallel, RunnableLambda
 from langchain_core.documents import Document
 import os
 import json
+import pickle
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -38,42 +39,45 @@ BASE_DIR = Path(__file__).parent.parent
 # Load PDFs from repair and owner manual folders, then tag each chunk with its
 # source so the LLM knows where the information came from.
 
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+CHUNKS_CACHE_PATH = str(BASE_DIR / "chunks_cache.pkl")
 
-# Repair manuals (Honda Civic, Toyota Camry, Corolla, Ford F150)
-repair_docs = PyPDFDirectoryLoader(str(BASE_DIR / 'data/manuals/repair_manual')).load()
-repair_chunks = text_splitter.split_documents(repair_docs)
-for chunk in repair_chunks:
-    chunk.metadata["source"] = "repair_manual"
+if Path(CHUNKS_CACHE_PATH).exists():
+    with open(CHUNKS_CACHE_PATH, "rb") as f:
+        manual_chunks, obd_docs = pickle.load(f)
+else:
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
-# Owner manuals (Toyota Camry)
-owner_docs = PyPDFDirectoryLoader(str(BASE_DIR / 'data/manuals/owner_manual')).load()
-owner_chunks = text_splitter.split_documents(owner_docs)
-for chunk in owner_chunks:
-    chunk.metadata["source"] = "owner_manual"
+    repair_docs = PyPDFDirectoryLoader(str(BASE_DIR / 'data/manuals/repair_manual')).load()
+    repair_chunks = text_splitter.split_documents(repair_docs)
+    for chunk in repair_chunks:
+        chunk.metadata["source"] = "repair_manual"
 
-# Combined manual chunks (no OBD codes — kept separate for better retrieval)
-manual_chunks = owner_chunks + repair_chunks
+    owner_docs = PyPDFDirectoryLoader(str(BASE_DIR / 'data/manuals/owner_manual')).load()
+    owner_chunks = text_splitter.split_documents(owner_docs)
+    for chunk in owner_chunks:
+        chunk.metadata["source"] = "owner_manual"
+
+    manual_chunks = owner_chunks + repair_chunks
+
+    # =============================================================================
+    # SECTION 2: OBD Code Documents
+    # =============================================================================
+    with open(str(BASE_DIR / 'data/formatted_obd.json')) as f:
+        obd_data = json.load(f)
+
+    obd_docs = [
+        Document(
+            page_content=f"OBD Code {item['code']}: {item['description']}",
+            metadata={"source": "obd_codes", "system": item["system"]}
+        )
+        for item in obd_data
+    ]
+
+    with open(CHUNKS_CACHE_PATH, "wb") as f:
+        pickle.dump((manual_chunks, obd_docs), f)
 
 # =============================================================================
-# SECTION 2: OBD Code Documents
-# =============================================================================
-# Load OBD codes from JSON and convert each code into a Document object
-# so it can be embedded and retrieved just like manual text.
-
-with open(str(BASE_DIR / 'data/formatted_obd.json')) as f:
-    obd_data = json.load(f)
-
-obd_docs = [
-    Document(
-        page_content=f"OBD Code {item['code']}: {item['description']}",
-        metadata={"source": "obd_codes", "system": item["system"]}
-    )
-    for item in obd_data
-]
-
-# =============================================================================
-# SECTION 3: Vector Store (FAISS Indexes)
+# SECTION 2: Vector Store (FAISS Indexes)
 # =============================================================================
 # Two separate FAISS indexes:
 #   - faiss_index     : manuals only  → retrieves repair/diagnostic procedures
